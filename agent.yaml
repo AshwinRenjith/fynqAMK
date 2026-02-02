@@ -1,0 +1,12 @@
+fynq: "1.0"
+package:
+  name: "@fynq/coder"
+  version: "0.1.0"
+  description: "A Python-based agent"
+  entry_point: "main.py"
+
+agent:
+  system_prompt: "./prompts/system.md"
+  capabilities: []
+
+tools: []

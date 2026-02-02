@@ -1,0 +1,2 @@
+[console_scripts]
+fynq = fynq_cli.main:app

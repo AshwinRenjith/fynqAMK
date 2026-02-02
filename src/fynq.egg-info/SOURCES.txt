@@ -1,0 +1,17 @@
+README.md
+pyproject.toml
+src/fynq/__init__.py
+src/fynq.egg-info/PKG-INFO
+src/fynq.egg-info/SOURCES.txt
+src/fynq.egg-info/dependency_links.txt
+src/fynq.egg-info/entry_points.txt
+src/fynq.egg-info/requires.txt
+src/fynq.egg-info/top_level.txt
+src/fynq/sdk/__init__.py
+src/fynq/sdk/llm.py
+src/fynq_cli/__init__.py
+src/fynq_cli/main.py
+src/fynq_cli/core/__init__.py
+src/fynq_cli/core/manifest.py
+src/fynq_cli/core/runtime.py
+src/fynq_cli/ui/console.py
