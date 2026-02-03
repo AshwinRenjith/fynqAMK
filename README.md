@@ -1,6 +1,8 @@
 
 <div align="center">
 
+  <img src="docs/images/banner.png" alt="fynq Hero Banner" width="100%" style="border-radius: 10px; margin-bottom: 20px;">
+
   <h1>
     <br/>
     ✨ fynq

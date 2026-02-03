@@ -32,7 +32,7 @@ class Capability(BaseModel):
 class Agent(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    capabilities: list[Capability] = Field(default_factory=list)
+    capabilities: list[str] = Field(default_factory=list)
     system_prompt: str | None = None
 
 

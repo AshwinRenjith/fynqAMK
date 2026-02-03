@@ -36,6 +36,12 @@ class AgentRuntime:
         entry_point = self.manifest.package.entry_point
 
         if entry_point:
+            # Check Permissions
+            from fynq_cli.ui.permissions import request_permissions
+            if not request_permissions(self.manifest.agent.capabilities):
+                console.print("[bold red]Execution Aborted:[/bold red] Permission denied by user.")
+                return
+
             self._run_python_code(entry_point, user_input, model)
         else:
             self._run_default_chat_loop(user_input, model)
@@ -62,8 +68,27 @@ class AgentRuntime:
             if key not in env:
                 env[key] = value
 
-        repo_root = Path(__file__).resolve().parents[3]
-        pythonpath_entries = [str(self.base_dir), str(repo_root / "src")]
+        # Inject Capabilities
+        for cap in self.manifest.agent.capabilities:
+            env_var = f"FYNQ_CAP_{cap.upper()}"
+            env[env_var] = "1"
+
+        # Determine SDK path and python interpreter
+        if getattr(sys, 'frozen', False):
+            # In compiled binary, sys._MEIPASS contains the bundled files
+            # We explicitly added ('src/fynq', 'fynq') to datas, so 'fynq' folder is at root of _MEIPASS
+            # PYTHONPATH needs to point to the parent of 'fynq' package
+            sdk_path = Path(sys._MEIPASS) 
+            # When frozen, sys.executable is the binary itself, not python interpreter.
+            # We assume user has 'python3' available since they are developing agents.
+            interpreter = "python3"
+        else:
+            # Running from source
+            repo_root = Path(__file__).resolve().parents[3]
+            sdk_path = repo_root / "src"
+            interpreter = sys.executable
+
+        pythonpath_entries = [str(self.base_dir), str(sdk_path)]
         existing_pythonpath = env.get("PYTHONPATH")
         if existing_pythonpath:
             pythonpath_entries.append(existing_pythonpath)
@@ -71,7 +96,7 @@ class AgentRuntime:
 
         try:
             subprocess.run(
-                [sys.executable, str(script_path)],
+                [interpreter, str(script_path)],
                 env=env,
                 check=True,
             )
