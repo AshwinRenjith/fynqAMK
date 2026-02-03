@@ -44,12 +44,19 @@ class Tool(BaseModel):
     permissions: list[str] = Field(default_factory=list)
 
 
+class LLMConfig(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    
+    model: str | None = None
+
+
 class Manifest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     fynq: str = Field(..., min_length=1)
     package: Package
     agent: Agent
+    llm: LLMConfig | None = None
     tools: list[Tool] = Field(default_factory=list)
 
 

@@ -1,0 +1,28 @@
+# OS files
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+.env
+build/
+dist/
+*.spec
+
+# Web (Next.js)
+fynq-web/node_modules/
+fynq-web/.next/
+fynq-web/out/
+fynq-web/build/
+fynq-web/.env.local
+fynq-web/.env.development.local
+fynq-web/.env.test.local
+fynq-web/.env.production.local
+
+# Fynq local DB
+fynq_local.db
+fynq.db

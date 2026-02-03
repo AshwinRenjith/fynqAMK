@@ -111,11 +111,11 @@ def run(
         "-t",
         help="The input task for the agent.",
     ),
-    model: str = typer.Option(
-        "mistral/mistral-tiny",
+    model: str | None = typer.Option(
+        None,
         "--model",
         "-m",
-        help="Model to use (e.g., mistral/mistral-small, ollama/llama3).",
+        help="Model to use (e.g., mistral/mistral-small, ollama/llama3). Defaults to manifest setting or mistral/mistral-tiny.",
     ),
 ) -> None:
     """Execute an agent."""
@@ -153,9 +153,16 @@ def run(
         raise typer.Exit(code=1) from exc
 
     runtime = AgentRuntime(manifest_path=path, manifest=manifest)
+    
+    # Determine model: CLI override > Manifest > Default
+    final_model = model
+    if not final_model and manifest.llm and manifest.llm.model:
+        final_model = manifest.llm.model
+    if not final_model:
+        final_model = "mistral/mistral-tiny"
 
     console.rule(f"[bold blue]Running {manifest.package.name}[/bold blue]")
-    runtime.run(user_input=task, model=model)
+    runtime.run(user_input=task, model=final_model)
 
 
 # Auth Command Group
@@ -211,6 +218,35 @@ def install(
         # console.print(f"[bold red]Install Failed:[/bold red] {e}") # Duplicate of what installer might print?
         # Installer likely printed specific error. Just exit.
         sys.exit(1)
+
+
+@app.command("list")
+def list_packages() -> None:
+    """List all installed agents."""
+    from fynq_cli.core.database import list_installed_packages
+    from rich.table import Table
+
+    packages = list_installed_packages()
+    
+    if not packages:
+        console.print("[yellow]No agents installed.[/yellow]")
+        return
+
+    table = Table(title="Installed Agents")
+    table.add_column("Name", style="cyan")
+    table.add_column("Version", style="green")
+    table.add_column("Path", style="dim")
+    table.add_column("Installed At", style="magenta")
+
+    for pkg in packages:
+        table.add_row(
+            pkg["name"],
+            pkg["version"],
+            pkg["install_path"],
+            str(pkg["installed_at"])
+        )
+    
+    console.print(table)
 
 
 @app.command()

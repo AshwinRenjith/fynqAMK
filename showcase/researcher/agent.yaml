@@ -1,0 +1,14 @@
+fynq: "1.0"
+package:
+  name: "@fynq/researcher"
+  version: "0.1.0"
+  description: "An autonomous researcher that searches the web and compiles markdown reports."
+  entry_point: "main.py"
+
+agent:
+  system_prompt: "./prompts/system.md"
+  capabilities:
+    - network_access
+    - fs_write
+
+tools: []

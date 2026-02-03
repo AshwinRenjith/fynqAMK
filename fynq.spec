@@ -11,6 +11,12 @@ datas += tmp_ret[0]
 binaries += tmp_ret[1]
 hiddenimports += tmp_ret[2]
 
+# Collect everything from rich to ensure unicode data is present
+tmp_rich = collect_all('rich')
+datas += tmp_rich[0]
+binaries += tmp_rich[1]
+hiddenimports += tmp_rich[2]
+
 # Standard metadata copies
 datas += copy_metadata('supabase')
 datas += copy_metadata('postgrest')
@@ -39,6 +45,9 @@ a = Analysis(
         'fynq_cli.ui.permissions',
         'tiktoken_ext', 
         'tiktoken_ext.openai_public',
+        'duckduckgo_search',
+        'bs4',
+        'httpx',
     ],
     hookspath=[],
     hooksconfig={},

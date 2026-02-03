@@ -1,0 +1,14 @@
+fynq: "1.0"
+package:
+  name: "@fynq/youtube"
+  version: "0.1.0"
+  description: "Analyzes YouTube videos by scraping metadata and searching for external context."
+  entry_point: "main.py"
+
+agent:
+  capabilities:
+    - network_access # To fetch the page and search DuckDuckGo
+    - fs_write       # To save the summary.md
+
+llm:
+  model: "mistral/mistral-tiny"

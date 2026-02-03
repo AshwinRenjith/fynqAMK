@@ -43,6 +43,22 @@ def register_package(name: str, version: str, path: str):
         """, (name, version, path, datetime.now()))
     conn.close()
 
+def list_installed_packages() -> list[dict]:
+    """Returns a list of all installed packages."""
+    init_db()
+    with _get_connection() as conn:
+        cursor = conn.execute("SELECT name, version, install_path, installed_at FROM installed_packages")
+        rows = cursor.fetchall()
+        return [
+            {
+                "name": row[0],
+                "version": row[1],
+                "install_path": row[2],
+                "installed_at": row[3],
+            }
+            for row in rows
+        ]
+
 def get_installed_package(name: str):
     """Retrieve details of an installed package."""
     init_db()

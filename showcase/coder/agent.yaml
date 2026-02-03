@@ -1,0 +1,13 @@
+fynq: "1.0"
+package:
+  name: "@fynq/coder"
+  version: "0.1.0"
+  description: "A coding assistant that generates clean, ready-to-run code files."
+  entry_point: "main.py"
+
+agent:
+  capabilities:
+    - fs_write  # Required to save the generated code
+
+llm:
+  model: "mistral/mistral-tiny"

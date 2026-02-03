@@ -1,0 +1,11 @@
+fynq: "1.0"
+package:
+  name: "@local/tool-test"
+  version: "0.1.0"
+  description: "Testing standard library tools"
+  entry_point: "main.py"
+agent:
+  system_prompt: "./prompts/system.md"
+  capabilities:
+    - network_access
+tools: []
