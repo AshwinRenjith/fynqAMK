@@ -54,6 +54,13 @@ class AgentRuntime:
         env = os.environ.copy()
         env["FYNQ_MODEL"] = model
         env["FYNQ_TASK"] = user_input
+        
+        # Inject Secrets
+        from fynq_cli.core.database import get_all_secrets
+        secrets = get_all_secrets()
+        for key, value in secrets.items():
+            if key not in env:
+                env[key] = value
 
         repo_root = Path(__file__).resolve().parents[3]
         pythonpath_entries = [str(self.base_dir), str(repo_root / "src")]

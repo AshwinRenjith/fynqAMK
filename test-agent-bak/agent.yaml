@@ -1,0 +1,10 @@
+fynq: "1.0"
+package:
+  name: "@local/test-agent"
+  version: "0.1.2"
+  description: "A new fynq agent"
+  entry_point: "main.py"
+agent:
+  system_prompt: "./prompts/system.md"
+  capabilities: []
+tools: []

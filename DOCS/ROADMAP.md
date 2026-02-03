@@ -44,7 +44,7 @@ Create a file named `ROADMAP.md` and use this structure.
 * [ ] Implement `fynq.llm.chat()` function.
 * [ ] **Test:** Create a `main.py` that imports `fynq`, calls the LLM, and prints the result.
 
-**🎯 Phase 1 Deliverable:** You can write a Python script + YAML file, type `fynq run .`, and it uses GPT-4/Ollama to answer a question.
+**🎯 Phase 1 Deliverable:** You can write a Python script + YAML file, type `fynq run .`, and it uses Mistral/Ollama to answer a question.
 
 ---
 
