@@ -1,41 +1,51 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 # Colors
-RESET='\033[0m'
 BLUE='\033[0;34m'
 GREEN='\033[0;32m'
 RED='\033[0;31m'
+BOLD='\033[1m'
+RESET='\033[0m'
 
-echo "${BLUE}fynq installer${RESET}"
+# Print banner
+printf "${BLUE}${BOLD}Fynq Installer v1.0${RESET}\n"
+printf "The universal runtime for AI Agents\n\n"
 
-# 1. Detect OS & Arch
-OS=$(uname -s | tr '[:upper:]' '[:lower:]')
-ARCH=$(uname -m)
-
-if [ "$ARCH" = "x86_64" ]; then
-    ARCH="amd64"
-elif [ "$ARCH" = "aarch64" ] || [ "$ARCH" = "arm64" ]; then
-    ARCH="arm64"
-else
-    echo "${RED}Unsupported architecture: $ARCH${RESET}"
+# 1. Environment Check
+if ! command -v python3 >/dev/null 2>&1; then
+    printf "${RED}Error: python3 is not installed.${RESET} Fynq requires Python 3.9+.\n"
     exit 1
 fi
 
-echo "Detected: $OS / $ARCH"
+if ! command -v pip3 >/dev/null 2>&1 && ! command -v pip >/dev/null 2>&1; then
+    printf "${RED}Error: pip is not installed.${RESET}\n"
+    exit 1
+fi
 
-# 2. Determine Download URL
-# Placeholder: Adjust this to your actual GitHub Release URL pattern
-RELEASE_URL="https://github.com/AshwinRenjith/fynqADK/releases/latest/download/fynq-${OS}-${ARCH}"
+# 2. Detect OS
+OS=$(uname -s | tr '[:upper:]' '[:lower:]')
+ARCH=$(uname -m)
+printf "System: $OS ($ARCH)\n"
 
-# 3. Download
-echo "Downloading fynq..."
-curl -fsSL "$RELEASE_URL" -o fynq
+# 3. Installation
+printf "Installing fynq via source (GitHub)...\n"
 
-# 4. Install
-echo "Installing to /usr/local/bin..."
-chmod +x fynq
-sudo mv fynq /usr/local/bin/fynq
+# Determine pip command
+PIP_CMD="pip3"
+if ! command -v pip3 >/dev/null 2>&1; then
+    PIP_CMD="pip"
+fi
 
-echo "${GREEN}Success!${RESET}"
-echo "Run 'fynq --version' to get started."
+# Execute installation
+if $PIP_CMD install "git+https://github.com/AshwinRenjith/fynqADK.git" --quiet; then
+    printf "\n${GREEN}${BOLD}✔ Success!${RESET}\n"
+    printf "Fynq has been installed to your Python path.\n"
+    printf "Run ${BLUE}fynq --help${RESET} to verify installation.\n\n"
+    printf "Summon your first agent:\n"
+    printf "  ${BLUE}fynq run @fynq/researcher --task \"What is Fynq?\"${RESET}\n"
+else
+    printf "\n${RED}Installation failed.${RESET} Please check your internet connection or GitHub access.\n"
+    exit 1
+fi
+
