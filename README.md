@@ -2,7 +2,7 @@
 <div align="center">
 
   <!-- Hero Section -->
-  <img src="docs/images/banner.png" alt="Fynq Hero" width="100%" style="border-radius: 16px; margin-bottom: 30px; border: 1px solid rgba(255, 255, 255, 0.1);">
+  <img src="DOCS/images/banner.png" alt="Fynq Hero" width="100%" style="border-radius: 16px; margin-bottom: 30px; border: 1px solid rgba(255, 255, 255, 0.1);">
 
   <h1 style="font-size: 60px; margin-bottom: 0;">Fynq</h1>
   <p style="font-size: 24px; color: #888;">Orchestrate Intelligence.</p>
